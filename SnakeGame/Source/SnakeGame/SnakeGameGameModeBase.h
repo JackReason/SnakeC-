@@ -14,4 +14,6 @@ class SNAKEGAME_API ASnakeGameGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+	
+	
 };

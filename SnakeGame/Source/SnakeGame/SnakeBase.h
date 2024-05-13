@@ -7,6 +7,7 @@
 #include "SnakeBase.generated.h"
 
 class ASnakeElementBase;
+class APlayerPawnBase;
 
 UENUM()
 enum class EMovementDirection
@@ -14,7 +15,8 @@ enum class EMovementDirection
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	BONUS,
 };
 
 
@@ -39,19 +41,55 @@ public:
 	UPROPERTY()
 	TArray<ASnakeElementBase*> SnakeElements;
 
-	UPROPERTY()
-	EMovementDirection LastMoveDirection;
+	EMovementDirection FirstMoveDirection;
+
+	FVector HeadLocation;
+
+	UFUNCTION()
+	void SnakeElementOverlap(ASnakeElementBase* OverlappedElement, AActor* Other);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	EMovementDirection CurrentMovementDirection; // For moving bonus
+
+	EMovementDirection BackCondition; // For moving bonus
+
+	FVector LastElementLocation; // For adding a new element to the end of the snake
+
+	void CreateSnake(int ElementsNum = 1);
+
+	void Move();
+
+	bool CheckHead; // Only spawn if Head position deleted
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void AddSnakeElement(int ElementsNum = 1);
+	void AddSnakeElement();
+	
+	void Destruction();
 
-	void Move();
+	TArray<FVector> Board; 
+
+	void DeleteBoardElement(); // When snake moves
+
+	void AddBoardElement(FVector X); // When snake moves
+
+	int BoardElements = 169;
+
+	void DeleteBoardElementWhenAdd(FVector X); // When snake grows and when blocks appear 
+
+	void SetScore(int x); 
+
+	int Points;
+
+	int Direction; // Moving bonus condition yes-no
+
+	APlayerPawnBase* Pawn;
+
 
 };
+

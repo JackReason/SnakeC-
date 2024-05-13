@@ -2,4 +2,6 @@
 
 
 #include "SnakeGameGameModeBase.h"
+#include "UserWidgetPoints.h"
+#include "Blueprint/UserWidget.h"
 
